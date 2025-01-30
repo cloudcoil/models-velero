@@ -1,6 +1,6 @@
 [project]
 name = "cloudcoil.models.velero"
-version = "0.0.0"
+version = "1.15.2.0"
 description = "Versioned velero models for cloudcoil"
 authors = [{ name = "Sambhav Kothari", email = "sambhavs.email@gmail.com" }]
 maintainers = [{ name = "Sambhav Kothari", email = "sambhavs.email@gmail.com" }]

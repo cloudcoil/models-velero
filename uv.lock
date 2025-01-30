@@ -200,7 +200,7 @@ test = [
 
 [[package]]
 name = "cloudcoil-models-velero"
-version = "0.0.0"
+version = "1.15.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "cloudcoil" },
