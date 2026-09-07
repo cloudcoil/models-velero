@@ -11,7 +11,7 @@ classifiers = [
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "cloudcoil>=0.5.0.dev0",
+    "cloudcoil>=0.7.0,<0.8",
 ]
 keywords = ["cloud-native", "kubernetes", "velero", "pydantic", "python", "async", "cloudcoil", "cloudcoil-models"]
 
@@ -57,13 +57,11 @@ dev = [
     "pytest>=8.3.4",
     "pytest-cov>=4.1.0",
     "ruff>=0.14",
-    "mkdocs-autorefs",
-    "datamodel-code-generator[http]",
     "types-pyyaml>=6.0.12.20241221",
     "ipython>=8.12.3",
     "pytest-sugar>=1.0.0",
     "pytest-asyncio>=0.25.0",
-    "cloudcoil[codegen,test]"
+    "cloudcoil[codegen,test]>=0.7.0,<0.8"
 ]
 
 [tool.mypy]
@@ -76,23 +74,19 @@ omit = ["cloudcoil/models/**"]
 only-include = ["cloudcoil"]
 
 [[tool.cloudcoil.codegen.models]]
-# Unique name for the models
-# This will be used as the name for the setuptools entrypoints
 namespace = "cloudcoil.models.velero"
-# Split the crl urls by comma
 input = [
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_backuprepositories.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_backups.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_backupstoragelocations.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_deletebackuprequests.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_downloadrequests.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_podvolumebackups.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_podvolumerestores.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_restores.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_schedules.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_serverstatusrequests.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v1/bases/velero.io_volumesnapshotlocations.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v2alpha1/bases/velero.io_datadownloads.yaml",
-    "https://raw.githubusercontent.com/vmware-tanzu/velero/refs/tags/v1.15.2/config/crd/v2alpha1/bases/velero.io_datauploads.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_backuprepositories.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_backups.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_backupstoragelocations.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_deletebackuprequests.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_downloadrequests.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_podvolumebackups.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_podvolumerestores.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_restores.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_schedules.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_serverstatusrequests.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_volumesnapshotlocations.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v2alpha1/bases/velero.io_datadownloads.yaml",
+    "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v2alpha1/bases/velero.io_datauploads.yaml",
 ]
-crd-namespace = "io.velero"
