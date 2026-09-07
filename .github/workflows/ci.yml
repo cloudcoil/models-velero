@@ -37,6 +37,9 @@ jobs:
       - name: Run Checks
         run: make -j8 lint test
 
+      - name: Build package
+        run: uv build --no-sources
+
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.14'
         uses: codecov/codecov-action@v5
