@@ -74,6 +74,7 @@ omit = ["cloudcoil/models/**"]
 only-include = ["cloudcoil"]
 
 [[tool.cloudcoil.codegen.models]]
+# Python package for generated models
 namespace = "cloudcoil.models.velero"
 input = [
     "https://raw.githubusercontent.com/velero-io/velero/refs/tags/v1.18.2/config/crd/v1/bases/velero.io_backuprepositories.yaml",
