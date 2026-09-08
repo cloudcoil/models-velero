@@ -1,114 +1,76 @@
-# cloudcoil-models-velero
+# cloudcoil.models.velero
 
-Versioned velero models for cloudcoil.
+Typed velero resources for the Cloudcoil Kubernetes client.
 
-[![PyPI](https://img.shields.io/pypi/v/cloudcoil.models.velero.svg)](https://pypi.python.org/pypi/cloudcoil.models.velero)
-[![Downloads](https://static.pepy.tech/badge/cloudcoil.models.velero)](https://pepy.tech/project/cloudcoil.models.velero)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/license/apache-2-0/)
+[![PyPI](https://img.shields.io/pypi/v/cloudcoil.models.velero.svg)](https://pypi.org/project/cloudcoil.models.velero/)
 [![CI](https://github.com/cloudcoil/models-velero/actions/workflows/ci.yml/badge.svg)](https://github.com/cloudcoil/models-velero/actions/workflows/ci.yml)
-> [!WARNING]  
-> This repository is auto-generated from the [cloudcoil repository](https://github.com/cloudcoil/cloudcoil/tree/main/models/velero). Please do not submit pull requests here. Instead, submit them to the main repository at https://github.com/cloudcoil/cloudcoil.
 
-## 🔧 Installation
+## Install a published release
 
-> [!NOTE]
-> For versioning information and compatibility, see the [Versioning Guide](https://github.com/cloudcoil/cloudcoil/blob/main/VERSIONING.md).
+Requires Python 3.14+:
 
-Using [uv](https://github.com/astral-sh/uv) (recommended):
-
-```bash
-# Install with Velero support
+```sh
 uv add cloudcoil.models.velero
-```
-
-Using pip:
-
-```bash
+# Or:
 pip install cloudcoil.models.velero
 ```
 
-## 💡 Examples
+Select a version matching the upstream APIs you use and pin a compatible Cloudcoil
+minor. The [versioning guide](https://github.com/cloudcoil/cloudcoil/blob/main/VERSIONING.md)
+explains the upstream version and packaging revision. Model installation does not
+install Kubernetes or an upstream operator.
 
-### Using Velero Models
+Use the [Cloudcoil documentation](https://cloudcoil.github.io/cloudcoil/) for client
+operations, controllers and admission. Report generation or packaging problems in
+[cloudcoil/cloudcoil](https://github.com/cloudcoil/cloudcoil/issues).
 
-```python
-from cloudcoil import apimachinery
-import cloudcoil.models.velero.v1 as velero
+Licensed under [Apache-2.0](https://github.com/cloudcoil/cloudcoil/blob/main/LICENSE).
+## Velero models
 
-# Create a Backup
-backup = velero.Backup(
-    metadata=apimachinery.ObjectMeta(name="mybackup"),
-    spec=velero.BackupSpec(
-        included_namespaces=["default"],
-        storage_location="default"
-    )
-).create()
+Models are generated from pinned upstream schemas. Configuration, schema inputs
+and README sources are maintained in
+[cloudcoil/cloudcoil](https://github.com/cloudcoil/cloudcoil/tree/main/models/velero);
+the generated package is in
+[cloudcoil/models-velero](https://github.com/cloudcoil/models-velero). Edit the
+source integration in Cloudcoil because generated repository edits are replaced
+on template refresh.
 
-# List Backups
-for b in velero.Backup.list():
-    print(f"Found Backup: {b.metadata.name}")
-```
+### Use a typed resource
 
-### Using the Fluent Builder API
-
-Cloudcoil provides a powerful fluent builder API for Velero resources:
-
-```python
-from cloudcoil.models.velero.v1 import Backup
-
-# Create a Backup using the fluent builder
-backup = (
-    Backup.builder()
-    .metadata(lambda metadata: metadata
-        .name("mybackup")
-        .namespace("velero")
-        .labels({"app": "myapp"})
-    )
-    .spec(lambda spec: spec
-        .included_namespaces(["default", "kube-system"])
-        .storage_location("default")
-        .ttl("72h")
-        .hooks(lambda hooks: hooks
-            .resources(lambda resources: resources.add({
-                "name": "my-hook",
-                "included_namespaces": ["default"]
-            }))
-        )
-    )
-    .build()
-)
-```
-
-### Using the Context Manager Builder API
-
-For complex backup configurations, you can use the context manager-based builder:
+After installing `cloudcoil.models.velero`, use the package's typed lookup to
+select an exact Kubernetes kind and API version:
 
 ```python
-from cloudcoil.models.velero.v1 import Backup
+from cloudcoil.models.velero import get_model
 
-# Create a Backup using context managers
-with Backup.new() as backup:
-    with backup.metadata() as metadata:
-        metadata.name("mybackup")
-        metadata.namespace("velero")
+Backup = get_model("Backup", api_version="velero.io/v1")
 
-    with backup.spec() as spec:
-        spec.included_namespaces(["default", "kube-system"])
-        spec.storage_location("default")
-        spec.ttl("72h")
-        with spec.hooks() as hooks:
-            with hooks.resources() as resources:
-                with resources.add() as resource:
-                    resource.name("my-hook").included_namespaces(["default"])
-                with resources.add() as resource:
-                    resource.name("another-hook").included_namespaces(["default"])
-final_backup = backup.build()
+for resource in Backup.list(namespace="default"):
+    print(resource.name)
 ```
 
-## 📚 Documentation
+The lookup is local; `list` reads the configured cluster. Async code uses
+`await Backup.async_list(namespace="default")`. Direct class imports are also supported; the
+lookup avoids depending on schema-derived module names.
 
-For complete documentation, visit [cloudcoil.github.io/cloudcoil](https://cloudcoil.github.io/cloudcoil)
+Install the upstream Velero CRDs and operator separately before making API calls.
+The model package supplies Python types and client methods, not the operator.
 
-## 📜 License
+Use the shared [resource guide](https://cloudcoil.github.io/cloudcoil/resources/)
+for constructors, builders, writes and watches, and the
+[controller guide](https://cloudcoil.github.io/cloudcoil/controllers/) for
+reconciliation. Pydantic validates constructed models at runtime; generated
+annotations provide field completion and static type checking.
 
-Apache License, Version 2.0 - see [LICENSE](LICENSE)
+### Maintain this integration
+
+From the Cloudcoil repository root:
+
+```sh
+make gen-repo-velero
+make -C output/models-velero lint test check-artifacts
+```
+
+Rendering generates the models before validation. The
+[model release guide](https://cloudcoil.github.io/cloudcoil/model-releases/)
+covers source updates, artifact checks and publishing.
