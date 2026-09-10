@@ -4,6 +4,7 @@ Typed velero resources for the Cloudcoil Kubernetes client.
 
 [![PyPI](https://img.shields.io/pypi/v/cloudcoil.models.velero.svg)](https://pypi.org/project/cloudcoil.models.velero/)
 [![CI](https://github.com/cloudcoil/models-velero/actions/workflows/ci.yml/badge.svg)](https://github.com/cloudcoil/models-velero/actions/workflows/ci.yml)
+[![Cloudcoil on StartupScores](https://startupscores.com/badge/cloudcoil.svg?style=shield&v=combo&theme=dark)](https://startupscores.com/open-source/cloudcoil)
 
 ## Install a published release
 
